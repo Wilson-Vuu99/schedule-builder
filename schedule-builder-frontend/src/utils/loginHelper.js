@@ -6,4 +6,3 @@ function Login(){
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 }
-
