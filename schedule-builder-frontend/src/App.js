@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { Input, Ripple, initMDB } from 'mdb-ui-kit'; // Import necessary MDB components
+import 'mdb-ui-kit/css/mdb.min.css'; // Import MDB CSS styles
+import LoginPage from './pages/LoginPage';
 
 function App() {
+  useEffect(() => {
+    // Initialize MDB UI Kit components
+    initMDB({ Input, Ripple });
+  }, []); // Empty dependency array ensures this runs only once
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <LoginPage />
     </div>
   );
 }
