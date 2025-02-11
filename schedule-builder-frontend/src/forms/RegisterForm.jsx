@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from '../components/Button';
-import axios from 'axios';
-import { validatePassword } from '../utils/loginHelper.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "../components/Button";
+import axios from "axios";
+import { validatePassword } from "../utils/loginHelper.js";
 
 const RegisterForm = ({ backToLogin }) => {
     const {
@@ -27,7 +27,7 @@ const RegisterForm = ({ backToLogin }) => {
         }
 
         try {
-            const response = await axios.post('/api/register', {
+            const response = await axios.post("/api/register", {
                 email: data.email,
                 password: data.password,
             });
@@ -39,7 +39,9 @@ const RegisterForm = ({ backToLogin }) => {
         } catch (error) {
             if (error.response) {
                 // Customize the error message based on the error response
-                setError("email", { message: "Registration failed. Please try again." });
+                setError("email", {
+                    message: "Registration failed. Please try again.",
+                });
             } else {
                 alert("Network error. Please try again.");
             }
@@ -53,16 +55,17 @@ const RegisterForm = ({ backToLogin }) => {
             </div>
 
             <div data-mdb-input-init className="form-outline mb-3">
-            <input 
-                type="email" 
-                id="loginEmail" 
-                className="form-control form-control-lg border border-light-subtle" 
-                placeholder="Enter a valid email address" 
-                autoComplete="loginEmail"
-                {...register('username', { required: 'Email is required' })}
-            />
-                <label className="form-label" htmlFor="loginEmail">Email address</label>
-                
+                <input
+                    type="email"
+                    id="loginEmail"
+                    className="form-control form-control-lg border border-light-subtle"
+                    placeholder="Enter a valid email address"
+                    autoComplete="loginEmail"
+                    {...register("username", { required: "Email is required" })}
+                />
+                <label className="form-label" htmlFor="loginEmail">
+                    Email address
+                </label>
             </div>
 
             <div data-mdb-input-init className="form-outline mb-3">
@@ -71,32 +74,41 @@ const RegisterForm = ({ backToLogin }) => {
                     id="registerPassword"
                     className="form-control form-control-lg border border-light-subtle"
                     placeholder="Enter password"
-                    {...register("password", {
-                        required: "Password is required",
-                    })}
                 />
-                <label className="form-label" htmlFor="registerPassword">Password</label>
-                {errors.password && <p className="text-danger">{errors.password.message}</p>}
+                <label className="form-label" htmlFor="registerPassword">
+                    Password
+                </label>
+                {errors.password && (
+                    <p className="text-danger">{errors.password.message}</p>
+                )}
             </div>
 
-            <div data-mdb-input-init class="form-outline mb-3">
+            <div data-mdb-input-init className="form-outline mb-3">
                 <input
                     type="password"
                     id="confirmPassword"
                     className="form-control form-control-lg border border-light-subtle"
                     placeholder="Confirm Password"
-                    {...register("confirmPassword", { required: "Please confirm your password" })}
+                    {...register("confirmPassword", {
+                        required: "Please confirm your password",
+                    })}
                 />
-                <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
+                <label className="form-label" htmlFor="confirmPassword">
+                    Confirm Password
+                </label>
             </div>
 
             <div className="text-center text-lg-start mt-4 pt-2">
                 <Button type="submit">Register</Button>
                 <p className="small fw-bold mt-2 pt-1 mb-4">
                     Already have an account?{" "}
-                    <a onClick={backToLogin} className="link-danger">
+                    <button
+                        type="button"
+                        onClick={backToLogin}
+                        className="link-button"
+                    >
                         Login
-                    </a>
+                    </button>
                 </p>
             </div>
         </form>
