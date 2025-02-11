@@ -21,7 +21,7 @@ const Button = ({ onClick, children, type = 'button',  className = "btn btn-prim
 
 // Prop types validation
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
     type: PropTypes.oneOf(['button', 'submit', 'reset']),
     className: PropTypes.string,

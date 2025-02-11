@@ -2,64 +2,103 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from '../components/Button';
+import axios from 'axios';
+import { validatePassword } from '../utils/loginHelper.js';
 
-const RegisterForm = ({backToLogin}) => {
+const RegisterForm = ({ backToLogin }) => {
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm();
-    
-    const onSubmit = (data) => {
-        console.log('Logging in:', data);
-    };
 
+    const onSubmit = async (data) => {
+        // Password validation
+        const isPasswordValid = validatePassword(data.password, setError);
+        if (!isPasswordValid) {
+            return; // Stop form submission if validation fails
+        }
+
+        // Confirm password validation
+        if (data.password !== data.confirmPassword) {
+            setError("confirmPassword", { message: "Passwords do not match" });
+            return; // Stop form submission if passwords do not match
+        }
+
+        try {
+            const response = await axios.post('/api/register', {
+                email: data.email,
+                password: data.password,
+            });
+
+            if (response.status === 200) {
+                alert("Registration successful!");
+                console.log("Success:", data.email);
+            }
+        } catch (error) {
+            if (error.response) {
+                // Customize the error message based on the error response
+                setError("email", { message: "Registration failed. Please try again." });
+            } else {
+                alert("Network error. Please try again.");
+            }
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="d-flex justify-content-center align-items-center mt-4 mb-4">
                 <h1 className="text-center">Register</h1>
             </div>
-            <div data-mdb-input-init className="form-outline mb-4">
+
+            <div data-mdb-input-init className="form-outline mb-3">
             <input 
                 type="email" 
-                id="form3Example3" 
+                id="loginEmail" 
                 className="form-control form-control-lg border border-light-subtle" 
                 placeholder="Enter a valid email address" 
+                autoComplete="loginEmail"
+                {...register('username', { required: 'Email is required' })}
             />
-                <label className="form-label" htmlFor="form3Example3">Email address</label>
+                <label className="form-label" htmlFor="loginEmail">Email address</label>
+                
             </div>
 
             <div data-mdb-input-init className="form-outline mb-3">
-                <input 
-                type="password" 
-                id="form3Example4" 
-                className="form-control form-control-lg border border-light-subtle" 
-                placeholder="Enter password" 
-            />
-            <label className="form-label" htmlFor="form3Example4">Password</label>
+                <input
+                    type="password"
+                    id="registerPassword"
+                    className="form-control form-control-lg border border-light-subtle"
+                    placeholder="Enter password"
+                    {...register("password", {
+                        required: "Password is required",
+                    })}
+                />
+                <label className="form-label" htmlFor="registerPassword">Password</label>
+                {errors.password && <p className="text-danger">{errors.password.message}</p>}
             </div>
 
-        {/* <div className="d-flex justify-content-between align-items-center">
-            <div className="form-check mb-0">
-                <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                <label className="form-check-label" htmlFor="form2Example3">
-                    Remember me
-                </label>
+            <div data-mdb-input-init class="form-outline mb-3">
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    className="form-control form-control-lg border border-light-subtle"
+                    placeholder="Confirm Password"
+                    {...register("confirmPassword", { required: "Please confirm your password" })}
+                />
+                <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
             </div>
-            <a href="#!" className="text-body">Forgot password?</a>
-        </div> */}
-        {/* <div className="text-center text-lg-start mt-4">
-            <Button> Login </Button> 
-        </div>
-        <p class="small fw-bold mt-2 pt-1 mb-0"> <a onClick={backToLogin} class="link-danger"> 
-            Back to Login </a>
-        </p> */}
-            <div class="text-center text-lg-start mt-4 pt-2">
-                <Button>Register</Button>
-                <p class="small fw-bold mt-2 pt-1 mb-4">Don't have an account? <a onClick={backToLogin}
-                    class="link-danger">back to Login</a></p>
-            </div>          
+
+            <div className="text-center text-lg-start mt-4 pt-2">
+                <Button type="submit">Register</Button>
+                <p className="small fw-bold mt-2 pt-1 mb-4">
+                    Already have an account?{" "}
+                    <a onClick={backToLogin} className="link-danger">
+                        Login
+                    </a>
+                </p>
+            </div>
         </form>
     );
 };
