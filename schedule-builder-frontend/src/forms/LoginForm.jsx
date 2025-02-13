@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React from "react";
-=======
-import React, { useEffect } from "react";
->>>>>>> main
 import { useForm } from "react-hook-form";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "../components/Button";
@@ -11,21 +7,6 @@ import { validatePassword } from "../utils/loginHelper.js"; // Import your passw
 
 const LoginForm = ({ backToRegister }) => {
     const { register, handleSubmit, setError } = useForm();
-<<<<<<< HEAD
-=======
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("https://b26a6875-13e2-4252-9964-8a76c8e6419a-00-rwaecu4n1cap.spock.replit.dev/test/");
-                console.log("Data from backend:", response.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData();
-    }, []); // Runs once when the component mounts
->>>>>>> main
 
     const onSubmit = async (data) => {
         // Password validation

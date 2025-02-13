@@ -1,3 +1,0 @@
-SHOW DATABASES;
-FROM * mysql
-SELECT * FROM Users
